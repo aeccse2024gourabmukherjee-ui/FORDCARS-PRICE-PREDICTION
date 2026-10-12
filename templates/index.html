@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FordCars Price Predictor</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <header class="header">
+            <div class="logo">FORD<span>CARS</span></div>
+            <p>INTELLIGENT AUTOMOTIVE VALUATION</p>
+        </header>
+
+        <main class="container">
+
+            <section class="hero">
+                <div class="badge">MACHINE LEARNING POWERED</div>
+
+                <h1>Discover Your Car's<br>
+                    <span>Estimated Value.</span>
+                </h1>
+
+                <p>
+                    Enter your vehicle details and let our Random Forest
+                    model estimate its resale price.
+                </p>
+            </section>
+
+            <section class="form-card">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Vehicle Information</h2>
+                        <p>Complete all eight fields below.</p>
+                    </div>
+
+                    <span class="car-icon">🚘</span>
+                </div>
+
+                <form action="/predict" method="POST">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="model">Car Model</label>
+
+                            <select id="model" name="model" required>
+                                <option value="">Select model</option>
+                                <option value="Fiesta">Fiesta</option>
+                                <option value="Focus">Focus</option>
+                                <option value="Puma">Puma</option>
+                                <option value="Kuga">Kuga</option>
+                                <option value="EcoSport">EcoSport</option>
+                                <option value="Mondeo">Mondeo</option>
+                                <option value="Ka">Ka</option>
+                                <option value="C-MAX">C-MAX</option>
+                                <option value="B-MAX">B-MAX</option>
+                                <option value="Galaxy">Galaxy</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="year">Manufacturing Year</label>
+                            <input type="number" id="year" name="year"
+                                   min="1990" max="2026"
+                                   placeholder="e.g. 2018" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="transmission">Transmission</label>
+                            <select id="transmission" name="transmission" required>
+                                <option value="">Select transmission</option>
+                                <option value="Manual">Manual</option>
+                                <option value="Automatic">Automatic</option>
+                                <option value="Semi-Auto">Semi-Auto</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mileage">Mileage</label>
+                            <input type="number" id="mileage" name="mileage"
+                                   min="0" step="any"
+                                   placeholder="e.g. 45000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fuelType">Fuel Type</label>
+                            <select id="fuelType" name="fuelType" required>
+                                <option value="">Select fuel type</option>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tax">Road Tax</label>
+                            <input type="number" id="tax" name="tax"
+                                   min="0" step="any"
+                                   placeholder="e.g. 150" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mpg">Fuel Efficiency (MPG)</label>
+                            <input type="number" id="mpg" name="mpg"
+                                   min="0" step="any"
+                                   placeholder="e.g. 55" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="engineSize">Engine Size (L)</label>
+                            <input type="number" id="engineSize"
+                                   name="engineSize" min="0" step="any"
+                                   placeholder="e.g. 1.5" required>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="predict-button">
+                        Predict Car Price <span>→</span>
+                    </button>
+
+                </form>
+
+                {% if prediction is defined %}
+                <div class="result success">
+                    <span class="result-label">ESTIMATED RESALE PRICE</span>
+                    <h2>{{ "{:,.2f}".format(prediction) }}</h2>
+                    <p>Price estimate generated by your trained ML model.</p>
+                </div>
+                {% endif %}
+
+                {% if error %}
+                <div class="result error">
+                    <strong>Prediction Error</strong>
+                    <p>{{ error }}</p>
+                </div>
+                {% endif %}
+
+            </section>
+
+            <section class="info-grid">
+                <div class="info-card">
+                    <span>01</span>
+                    <h3>Enter Details</h3>
+                    <p>Provide the vehicle's specifications.</p>
+                </div>
+
+                <div class="info-card">
+                    <span>02</span>
+                    <h3>AI Analysis</h3>
+                    <p>The trained Random Forest processes the data.</p>
+                </div>
+
+                <div class="info-card">
+                    <span>03</span>
+                    <h3>Get Estimate</h3>
+                    <p>Receive a predicted resale price.</p>
+                </div>
+            </section>
+
+            <footer>
+                <p>FORDCARS · MACHINE LEARNING PROJECT</p>
+                <p>Predictions are estimates, not guaranteed market prices.</p>
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
